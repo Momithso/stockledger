@@ -1,0 +1,17 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+      target: dev
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./:/usr/src/app
+      - node_modules_api:/usr/src/app/node_modules
+    command: pnpm run container
+    ports:
+      - "3000:3000"
+
+volumes:
+  node_modules_api:
