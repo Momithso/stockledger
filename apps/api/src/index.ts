@@ -42,10 +42,6 @@ async function start() {
     database.info('Connected to MongoDB');
 
     /**
-     * Create collections
-     */
-
-    /**
      * Read JWT Keys
      */
     const privateKey = fs.readFileSync(rootPath + "/jwtRS256.key", "utf-8");

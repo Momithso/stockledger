@@ -3,7 +3,7 @@ import { api } from "../utils/logger";
 import { validateRequest } from "../utils/validate";
 import { userModel } from "../models/user.model";
 import bcrypt from 'bcrypt';
-import { CreateUserError, CreateUserAnswer, User } from "../types/user.type";
+import { CreateUserError, CreateUserAnswer, User } from "../interfaces/user.type";
 
 const saltRounds = 10;
 

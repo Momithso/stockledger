@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import { userModel } from "../models/user.model";
-import { permissionCheck, permissionError } from "../types/permission.type";
+import { permissionCheck, permissionError } from "../interfaces/permission.type";
 import { api } from "../utils/logger";
-import { JwtPayloadUser } from "../types/authenticate.type";
+import { JwtPayloadUser } from "../interfaces/authenticate.type";
 import jwt from 'jsonwebtoken'
 import { app } from "..";
-import { User } from "../types/user.type";
+import { User } from "../interfaces/user.type";
 import { hasRequiredPermissions } from "../utils/validate";
 
 declare global { namespace Express { interface Request { decoded?: JwtPayloadUser, issuer?: User }}}

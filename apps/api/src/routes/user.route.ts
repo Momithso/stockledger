@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { createUser } from '../controllers/user.controller';
 import { CheckPermission, CheckToken } from '../middlewares/permission.middleware';
-import { permissionCheck } from '../types/permission.type';
+import { permissionCheck } from '../interfaces/permission.type';
 
 const router = Router();
 

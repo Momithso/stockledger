@@ -4,9 +4,9 @@ import { api } from "../utils/logger";
 import { validateRequest } from "../utils/validate";
 import { userModel } from "../models/user.model";
 import bcrypt from 'bcrypt';
-import { AuthenticateAnswer, AuthenticateError, AuthenticateUserRequest, JwtPayloadUser } from "../types/authenticate.type";
+import { AuthenticateAnswer, AuthenticateError, AuthenticateUserRequest, JwtPayloadUser } from "../interfaces/authenticate.type";
 import { app } from "..";
-import { User } from "../types/user.type";
+import { User } from "../interfaces/user.type";
 
 const createJwtPayloadUser = (user: any | User) => {
     const jwtPayload: JwtPayloadUser = {
