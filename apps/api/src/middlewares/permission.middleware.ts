@@ -64,7 +64,10 @@ export const CheckPermission = async (required: permissionCheck) => {
 
             // check permissions
             let check = false;
-            if (_user.permissions) {
+            if (_user.permissions == true) {
+                check = true;
+            }
+            else if (_user.permissions) {
                 for (const _permission of _user.permissions) {
                     if (_permission.databaseName != required.databaseName || !_permission.options) continue;
                         
