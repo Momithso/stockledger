@@ -8,7 +8,6 @@ import mongoose from "mongoose";
 
 export const app = express();
 export const PORT = process.env.PORT || 3000;
-export const DB_URI = process.env.MONGO_URI || "<>";
 export const rootPath = process.cwd();
 
 /**
@@ -21,7 +20,25 @@ async function start() {
      * Connect to database
      */
     database.info('Connecting to MongoDB');
-    await mongoose.connect(DB_URI);
+    for (let i = 0; i < 3; ++i) {
+      try {
+        await mongoose.connect(
+            `mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB_NAME}`,
+            {
+              authSource: "admin",
+              user: process.env.MONGO_USERNAME,
+              pass: process.env.MONGO_PASSWORD,
+            }
+        )
+        break;
+      } catch (error) {
+        database.error('Error connecting to MongoDB', error)
+        database.info(`Attempt ${i+1}: Trying to reconnect to MongoDB`)
+        if (i >= 2) {
+          throw "error: max reconnects to MongoDB reached";
+        }
+      }
+    }
     database.info('Connected to MongoDB');
 
     /**
@@ -31,8 +48,8 @@ async function start() {
     /**
      * Read JWT Keys
      */
-    const privateKey = fs.readFileSync(rootPath + "/jwtRS256.key", "utf-8");
-    const publicKey = fs.readFileSync(rootPath + "/jwtRS256.key.pub", "utf-8");
+    const privateKey = fs.readFileSync(rootPath + "/apps/api/jwtRS256.key", "utf-8");
+    const publicKey = fs.readFileSync(rootPath + "/apps/api/jwtRS256.key.pub", "utf-8");
     app.locals.jwt = { privateKey, publicKey };
     system.info('JWT Keys loaded');
 

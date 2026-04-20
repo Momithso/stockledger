@@ -20,9 +20,6 @@ services:
     env_file: 
       - .env
     environment:
-      # Beispiel: mongodb://<user>:<pass>@mongo:27017/<dbname>?authSource=admin
-      MONGO_URI: "${MONGO_URI:-mongodb://root:example@mongo:27017/appdb?authSource=admin}"
-      PORT: "${PORT:-3000}"
       NODE_ENV: "${NODE_ENV:-production}"
     ports:
       - "${PORT:-3000}:3000"

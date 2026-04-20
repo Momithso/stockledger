@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "pnpm -w exec tsx --env-file=../../.env --watch src/index.ts",
-    "container": "sh -c \"cd /usr/src/app && pnpm -w exec tsx --env-file=/usr/src/app/.env --watch apps/api/src/index.ts\""
+    "dev": "pnpm -w exec tsx --env-file=./.env --watch ./apps/api/src/index.ts",
+    "container": "sh -c \"cd /usr/src/app && pnpm -w exec tsx --env-file=/usr/src/app/.env --watch apps/api/src/index.ts\" --NODE"
   },
   "keywords": [],
   "author": "",
