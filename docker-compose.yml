@@ -3,9 +3,9 @@ services:
     image: mongo:8.0-noble
     restart: unless-stopped
     environment:
-      MONGO_INITDB_DATABASE: "${MONGO_INITDB_DATABASE:-appdb}"
-      MONGO_INITDB_ROOT_USERNAME: "${MONGO_INITDB_ROOT_USERNAME:-root}"
-      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_INITDB_ROOT_PASSWORD:-example}"
+      MONGO_INITDB_DATABASE: "${MONGO_DATABASE:-stockledger}"
+      MONGO_INITDB_ROOT_USERNAME: "${MONGO_ROOT_USERNAME:-root}"
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_ROOT_PASSWORD:-example}"
     volumes:
       - mongo_data:/data/db
     ports:

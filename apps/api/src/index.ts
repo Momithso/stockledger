@@ -48,8 +48,8 @@ async function start() {
     /**
      * Read JWT Keys
      */
-    const privateKey = fs.readFileSync(rootPath + "/apps/api/jwtRS256.key", "utf-8");
-    const publicKey = fs.readFileSync(rootPath + "/apps/api/jwtRS256.key.pub", "utf-8");
+    const privateKey = fs.readFileSync(rootPath + "/jwtRS256.key", "utf-8");
+    const publicKey = fs.readFileSync(rootPath + "/jwtRS256.key.pub", "utf-8");
     app.locals.jwt = { privateKey, publicKey };
     system.info('JWT Keys loaded');
 

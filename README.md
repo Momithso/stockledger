@@ -22,8 +22,14 @@ StockLedger is a tool for managing and tracking stock inventory, transactions, a
     # Example for Node.js
     pnpm install
     ```
+   
+3. **Create JWT Key**
+Create a JWT Key for signing JWT Tokens
+   ```bash
+   ssh-keygen -t rsa -b 4096 -m pem -f jwtRS256.key
+   ```
 
-3. **Run the application:**
+4. **Run the application:**
     ```bash
     pnpm run dev
     ```

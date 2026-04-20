@@ -5,7 +5,7 @@
 ### Install packages
 Install all NodeJS packages for the project
 ```bash
-    npm install
+    pnpm install
 ```
 
 ### Create JWT Key
