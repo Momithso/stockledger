@@ -2,7 +2,7 @@
 
 <template>
   <rapi-doc
-      spec-url = "https://petstore.swagger.io/v2/swagger.json"
+      spec-url = "http://localhost:3000/api/docs/json"
       render-style = "read"
       style = "height:100vh; width:100%;"
   > </rapi-doc>

@@ -3,10 +3,10 @@ import { userModel } from "../models/user.model";
 import { permissionCheck, permissionError } from "../interfaces/permission.type";
 import { api } from "../utils/logger";
 import { JwtPayloadUser } from "../interfaces/authenticate.type";
-import jwt from 'jsonwebtoken'
 import { app } from "..";
 import { User } from "../interfaces/user.type";
 import { hasRequiredPermissions } from "../utils/validate";
+import { verifyJwt } from "../utils/jwt";
 
 declare global { namespace Express { interface Request { decoded?: JwtPayloadUser, issuer?: User }}}
 
@@ -23,23 +23,14 @@ export const CheckToken = (req: Request, res: Response, next: NextFunction) => {
         return undefined;
     }
 
-    let verifyErr;
-    let decoded: JwtPayloadUser | undefined;
-    if (!_token) {
+    try {
+        const decoded = verifyJwt(_token, app.locals.jwt.publicKey);
+        req.decoded = decoded;
+        next();
+    } catch (verifyErr) {
         res.status(err.status).json(err);
         return undefined;
     }
-    jwt.verify(_token, app.locals.jwt.privateKey, { algorithms: ['RS256'] } ,(_err: any, _decoded: any) => {
-        verifyErr = _err;
-        decoded = _decoded;
-    })
-    if (verifyErr || !decoded) {
-        res.status(err.status).json(err);
-        return undefined;
-    }
-
-    req.decoded = decoded;
-    next();
 }
 
 export const CheckPermission = async (required: permissionCheck) => {
