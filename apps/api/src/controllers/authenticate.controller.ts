@@ -7,6 +7,7 @@ import bcrypt from 'bcrypt';
 import { AuthenticateAnswer, AuthenticateError, AuthenticateUserRequest, JwtPayloadUser } from "../interfaces/authenticate.type";
 import { app } from "..";
 import { User } from "../interfaces/user.type";
+import { signJwt, verifyJwt } from "../utils/jwt";
 
 const createJwtPayloadUser = (user: any | User) => {
     const jwtPayload: JwtPayloadUser = {
@@ -15,7 +16,7 @@ const createJwtPayloadUser = (user: any | User) => {
         email: user.email
     };
     let answer: AuthenticateAnswer = {
-        token: jwt.sign(jwtPayload, app.locals.jwt.privateKey, { algorithm: 'RS256', expiresIn: '2h' })
+        token: signJwt(jwtPayload, app.locals.jwt.privateKey, '2h')
     };
     return answer;
 }
@@ -29,8 +30,8 @@ const createJwtPayloadUser = (user: any | User) => {
  */
 export const authenticateUser = async (req: Request, res: Response, next: NextFunction) => {
     const data: AuthenticateUserRequest = {
-        email: req.query?.email,
-        password: req.query?.password
+        email: req.query?.email as string,
+        password: req.query?.password as string
     }
 
     let err: AuthenticateError = {
@@ -88,14 +89,14 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
 
     try {
         // check token
-        let verifyErr;
         let decoded: JwtPayloadUser | any;
         if (!_token) return res.status(err.status).json(err);
-        jwt.verify(_token, app.locals.jwt.privateKey, { algorithms: ['RS256'] } ,(_err: any, _decoded: any) => {
-            verifyErr = _err;
-            decoded = _decoded;
-        })
-        if (verifyErr) return res.status(err.status).json(err);
+
+        try {
+            decoded = verifyJwt(_token, app.locals.jwt.publicKey);
+        } catch (verifyErr) {
+            return res.status(err.status).json(err);
+        }
 
         // Find user with _id
         if (!decoded) {
@@ -103,7 +104,10 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
             return res.status(err.status).json(err);
         }
         const user = await userModel.findOne({ _id: decoded._id });
-        if (!user) throw new Error("Internal Server Error");
+        if (!user) {
+            api.warn("User not found for token");
+            return res.status(err.status).json(err);
+        }
 
         // Create JWT Token for authentication
         const answer = createJwtPayloadUser(user);

@@ -1,15 +1,15 @@
 import { Router } from 'express';
-import { checkMongoDB } from '../controllers/health.controller';
-import { healthDocs } from './docs/health.docs';
+import {getDocs} from "../controllers/docs.controller";
+import { docsDocs } from "./docs/docs.docs";
 import {RouterRoute} from "../interfaces/router.type";
 
 const router = Router();
 
-router.get('/health', checkMongoDB);
+router.get('/json', getDocs)
 
 const RouterRoute:RouterRoute = {
     router,
-    docs: healthDocs
+    docs: docsDocs
 }
 
 export default RouterRoute;
