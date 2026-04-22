@@ -1,10 +1,13 @@
 import { permission } from "./permission.type"
+import {Timestamp} from "./util.type";
+
+export type UserId = string;
 
 export interface User {
     name: string,
     email: string,
     password: string,
-    createdAt: number,
+    createdAt: Timestamp,
     permissions?: [permission] | boolean
 }
 
