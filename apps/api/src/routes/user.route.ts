@@ -12,12 +12,7 @@ const createPermission : permissionCheck = {
     databaseName: 'user',
     options: { write: { create: true }}
 }
-router.post(
-    "/create",
-    CheckToken,
-    await CheckPermission(createPermission),
-    (req, res, next) => createUser(req, res, next)
-)
+router.post("/create", CheckToken, await CheckPermission(createPermission), createUser)
 
 const RouterRoute:RouterRoute = {
     router,
